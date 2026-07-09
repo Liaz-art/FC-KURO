@@ -2,14 +2,12 @@
 <html lang="fr">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>FC KURO - Joueurs</title>
 
 <style>
-
 *{
     margin:0;
     padding:0;
@@ -94,7 +92,9 @@ nav a.active{
     font-size:14px;
 }
 
-/* CATEGORIES */
+    /* ===========================
+        CATEGORIES
+=========================== */
 
 .categories{
     margin-top:60px;
@@ -138,12 +138,14 @@ nav a.active{
 
 .category.open .category-content{
     display:grid;
-    grid-template-columns:repeat(auto-fill, minmax(240px, 240px));
+    grid-template-columns:repeat(auto-fill, minmax(240px,240px));
     gap:30px;
-    justify-content:start;
+    justify-content:flex-start;
 }
 
-/* CARTE JOUEUR */
+/* ===========================
+        CARTE JOUEUR
+=========================== */
 
 .player-card{
     width:240px;
@@ -151,30 +153,30 @@ nav a.active{
     border:1px solid rgba(0,255,255,.35);
     border-radius:12px;
     overflow:hidden;
-    box-shadow:0 0 25px rgba(0,255,255,.12);
     transition:.3s;
+    box-shadow:0 0 20px rgba(0,255,255,.12);
 }
 
 .player-card:hover{
     transform:translateY(-8px);
     box-shadow:
     0 0 25px rgba(0,255,255,.35),
-    0 0 45px rgba(123,0,255,.25);
+    0 0 40px rgba(123,0,255,.25);
 }
 
 .player-card img{
     width:100%;
     height:340px;
     object-fit:cover;
-    object-position:center top;
+    object-position:top;
     cursor:pointer;
     display:block;
 }
 
 .player-info{
     padding:18px;
-    text-align:center;
     background:#000;
+    text-align:center;
 }
 
 .player-info h3{
@@ -188,7 +190,9 @@ nav a.active{
     font-size:13px;
 }
 
-/* LIKE */
+/* ===========================
+            LIKE
+=========================== */
 
 .like-box{
     margin-top:15px;
@@ -204,37 +208,36 @@ nav a.active{
     border-radius:8px;
     background:#7200ff;
     color:white;
-    font-weight:bold;
     cursor:pointer;
-    box-shadow:0 0 18px #7200ff;
+    font-weight:bold;
     transition:.3s;
 }
 
 .like-btn:hover{
     background:#a100ff;
-    transform:scale(1.05);
 }
 
 .like-btn.liked{
     background:#00bcd4;
-    box-shadow:0 0 18px #00eaff;
 }
 
 .likes{
-    font-weight:bold;
     color:#00eaff;
+    font-weight:bold;
 }
 
-/* ZOOM IMAGE */
+/* ===========================
+        MODAL IMAGE
+=========================== */
 
 .modal{
-    display:none;
     position:fixed;
     inset:0;
     background:rgba(0,0,0,.92);
-    z-index:999;
+    display:none;
     justify-content:center;
     align-items:center;
+    z-index:9999;
 }
 
 .modal.open{
@@ -252,38 +255,39 @@ nav a.active{
 
 .close{
     position:absolute;
-    top:30px;
-    right:45px;
+    top:25px;
+    right:40px;
     font-size:45px;
     cursor:pointer;
-    color:white;
 }
 
 /* RESPONSIVE */
 
 @media(max-width:800px){
-    header{
-        padding:0 25px;
-    }
 
-    nav{
-        display:none;
-    }
+header{
+padding:0 20px;
+}
 
-    .title{
-        font-size:38px;
-    }
+nav{
+display:none;
+}
 
-    .category.open .category-content{
-        grid-template-columns:1fr;
-        justify-items:center;
-    }
+.category.open .category-content{
+grid-template-columns:1fr;
+justify-items:center;
+}
+
+.title{
+font-size:38px;
+}
+
 }
 
 </style>
 </head>
 
-<body>
+    <body>
 
 <header>
     <a href="index.html" class="logo">FC KURO</a>
@@ -322,7 +326,7 @@ nav a.active{
                         <p>MC - Milieu Central</p>
 
                         <div class="like-box">
-                            <button class="like-btn" onclick="likePlayer(this, 'liazLeka')">LIKE</button>
+                            <button class="like-btn" data-player="liazLeka" onclick="likePlayer(this, 'liazLeka')">LIKE</button>
                             <span class="likes" id="liazLeka">0</span>
                         </div>
                     </div>
@@ -350,7 +354,76 @@ nav a.active{
     <img id="modalImg" src="">
 </div>
 
-<script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+import { getDatabase, ref, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDKXeWWcV2CC4rP_b6R_W8Ps3mGsDYOhOY",
+    authDomain: "fc-kuro.firebaseapp.com",
+    databaseURL: "https://fc-kuro-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "fc-kuro",
+    storageBucket: "fc-kuro.firebasestorage.app",
+    messagingSenderId: "420379848342",
+    appId: "1:420379848342:web:c5c5f66ad096cdd827dcb7",
+    measurementId: "G-Y2T0Q3BR6E"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+const players = ["liazLeka"];
+
+players.forEach(playerId => {
+    const likeRef = ref(db, "players/" + playerId + "/likes");
+
+    onValue(likeRef, snapshot => {
+        document.getElementById(playerId).textContent = snapshot.val() || 0;
+    });
+
+    const button = document.querySelector(`button[data-player="${playerId}"]`);
+
+    if(localStorage.getItem("liked_" + playerId)){
+        button.classList.add("liked");
+        button.textContent = "LIKÉ";
+    }
+});
+
+window.likePlayer = function(button, playerId){
+    const likedKey = "liked_" + playerId;
+    const alreadyLiked = localStorage.getItem(likedKey);
+    const likeRef = ref(db, "players/" + playerId + "/likes");
+
+    runTransaction(likeRef, currentLikes => {
+        currentLikes = currentLikes || 0;
+
+        if(alreadyLiked){
+            return Math.max(0, currentLikes - 1);
+        }else{
+            return currentLikes + 1;
+        }
+    });
+
+    if(alreadyLiked){
+        localStorage.removeItem(likedKey);
+        button.classList.remove("liked");
+        button.textContent = "LIKE";
+    }else{
+        localStorage.setItem(likedKey, "true");
+        button.classList.add("liked");
+        button.textContent = "LIKÉ";
+    }
+};
+
+window.openModal = function(src){
+    document.getElementById("modalImg").src = src;
+    document.getElementById("modal").classList.add("open");
+};
+
+window.closeModal = function(){
+    document.getElementById("modal").classList.remove("open");
+};
+
 const categories = document.querySelectorAll(".category");
 
 categories.forEach(category => {
@@ -360,54 +433,6 @@ categories.forEach(category => {
     button.addEventListener("click", () => {
         category.classList.toggle("open");
         icon.textContent = category.classList.contains("open") ? "-" : "+";
-    });
-});
-
-function openModal(src){
-    document.getElementById("modalImg").src = src;
-    document.getElementById("modal").classList.add("open");
-}
-
-function closeModal(){
-    document.getElementById("modal").classList.remove("open");
-}
-
-function likePlayer(button, playerId){
-    let likes = parseInt(localStorage.getItem("likes_" + playerId)) || 0;
-    const alreadyLiked = localStorage.getItem("liked_" + playerId);
-
-    if(alreadyLiked){
-        likes--;
-        localStorage.removeItem("liked_" + playerId);
-        button.classList.remove("liked");
-        button.textContent = "LIKE";
-    }else{
-        likes++;
-        localStorage.setItem("liked_" + playerId, "true");
-        button.classList.add("liked");
-        button.textContent = "LIKÉ";
-    }
-
-    if(likes < 0){
-        likes = 0;
-    }
-
-    localStorage.setItem("likes_" + playerId, likes);
-    document.getElementById(playerId).textContent = likes;
-}
-
-window.addEventListener("load", () => {
-    const players = ["liazLeka"];
-
-    players.forEach(playerId => {
-        const likes = localStorage.getItem("likes_" + playerId) || 0;
-        document.getElementById(playerId).textContent = likes;
-
-        if(localStorage.getItem("liked_" + playerId)){
-            const btn = document.querySelector(`button[onclick*="${playerId}"]`);
-            btn.classList.add("liked");
-            btn.textContent = "LIKÉ";
-        }
     });
 });
 </script>
