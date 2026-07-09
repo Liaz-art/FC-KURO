@@ -1,638 +1,87 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>FC KURO</title>
 
-
 <style>
-
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
 }
-
 
 body{
-
-    background:#050008;
-    color:white;
-    overflow:hidden;
-
-}
-
-
-
-/* =====================
-   INTRO CORBEAU
-===================== */
-
-
-.intro{
-
-    position:fixed;
-
-    width:100%;
-    height:100vh;
-
     background:#000;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    z-index:999;
-
-    animation:hideIntro 4s forwards;
-
+    overflow:hidden;
 }
-
-
-
-.raven{
-
-    width:350px;
-
-    filter:
-    drop-shadow(0 0 20px #7200ff)
-    drop-shadow(0 0 60px #a100ff);
-
-    animation:ravenFly 3s ease-in-out;
-
-}
-
-
-
-@keyframes ravenFly{
-
-
-0%{
-
-transform:
-translateY(150px)
-scale(.3);
-
-opacity:0;
-
-}
-
-
-
-40%{
-
-opacity:1;
-
-}
-
-
-
-100%{
-
-transform:
-translateY(-30px)
-scale(1);
-
-opacity:1;
-
-}
-
-}
-
-
-
-
-@keyframes hideIntro{
-
-
-0%,75%{
-
-opacity:1;
-
-}
-
-
-100%{
-
-opacity:0;
-visibility:hidden;
-
-}
-
-}
-
-
-
-/* =====================
-   ACCUEIL
-===================== */
-
 
 .home{
-
-height:100vh;
-width:100%;
-
-
-background-image:
-
-linear-gradient(
-rgba(0,0,0,.45),
-rgba(0,0,0,.85)
-),
-
-url("accueil.png");
-
-
-
-background-size:cover;
-
-background-position:center;
-
-
-position:relative;
-
-
-opacity:0;
-
-animation:showHome 2s 3s forwards;
-
-
+    width:100vw;
+    height:100vh;
+    position:relative;
 }
 
-
-
-@keyframes showHome{
-
-to{
-
-opacity:1;
-
+.home img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
 }
 
+/* LIENS INVISIBLES */
+.click{
+    position:absolute;
+    display:block;
+    background:transparent;
 }
 
-
-
-/* =====================
-   AILES LUMINEUSES
-===================== */
-
-
-.wing{
-
-
-position:absolute;
-
-width:300px;
-
-height:600px;
-
-
-background:
-
-linear-gradient(
-transparent,
-rgba(130,0,255,.35)
-);
-
-
-filter:blur(40px);
-
-
-}
-
-
-
-.left{
-
-left:-150px;
-
-top:200px;
-
-transform:rotate(30deg);
-
-}
-
-
-
-.right{
-
-right:-150px;
-
-top:200px;
-
-transform:rotate(-30deg);
-
-}
-
-
-
-
-/* =====================
-   MENU
-===================== */
-
-
-header{
-
-
-position:absolute;
-
-top:35px;
-
-left:0;
-
-width:100%;
-
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
-
-}
-
-
-
-nav{
-
-display:flex;
-
-gap:45px;
-
-}
-
-
-
-nav a{
-
-
-color:white;
-
-text-decoration:none;
-
-font-size:14px;
-
-font-weight:bold;
-
-letter-spacing:1px;
-
-
-transition:.3s;
-
-
-}
-
-
-
-nav a:hover{
-
-
-color:#a100ff;
-
-
-text-shadow:
-
-0 0 10px #a100ff;
-
-
-}
-
-
-
-
-
-/* =====================
-   CONTENU CENTRAL
-===================== */
-
-
-.content{
-
-
-position:absolute;
-
-top:50%;
-
-left:50%;
-
-
-transform:
-
-translate(-50%,-50%);
-
-
-text-align:center;
-
-
-}
-
-
-
-
-
-.logo{
-
-
-font-size:100px;
-
-font-weight:900;
-
-letter-spacing:15px;
-
-
-color:white;
-
-
-text-shadow:
-
-0 0 10px #7000ff,
-
-0 0 30px #7000ff,
-
-0 0 80px #a800ff;
-
-
-}
-
-
-
-
-
-.subtitle{
-
-
-font-size:25px;
-
-letter-spacing:10px;
-
-color:#d09aff;
-
-margin-top:15px;
-
-
-}
-
-
-
-
-
-.slogan{
-
-
-margin-top:35px;
-
-letter-spacing:8px;
-
-font-size:14px;
-
-color:#d6b0ff;
-
-
-}
-
-
-
-
-
-/* =====================
-   BOUTONS
-===================== */
-
-
-.buttons{
-
-
-margin-top:50px;
-
-
-}
-
-
-
-
-button{
-
-
-width:160px;
-
-height:55px;
-
-
-margin:10px;
-
-
-background:#6000d9;
-
-
-border:1px solid #9b4dff;
-
-
-color:white;
-
-
-font-weight:bold;
-
-font-size:16px;
-
-
-border-radius:8px;
-
-
-cursor:pointer;
-
-
-box-shadow:
-
-0 0 25px #7300ff;
-
-
-transition:.3s;
-
-
-}
-
-
-
-
-button:hover{
-
-
-background:#a100ff;
-
-
-transform:scale(1.08);
-
-
-box-shadow:
-
-0 0 40px #a100ff;
-
-
-}
-
-
-
-
-
-.outline{
-
-
-background:transparent;
-
-
-}
-
-
+/* MENU DU HAUT */
+.accueil{top:7%; left:25%; width:5%; height:4%;}
+.equipe{top:7%; left:31%; width:5%; height:4%;}
+.joueurs{top:7%; left:37%; width:6%; height:4%;}
+.classement{top:7%; left:45%; width:8%; height:4%;}
+.club{top:7%; left:54%; width:4%; height:4%;}
+.actualites{top:7%; left:60%; width:8%; height:4%;}
+.contact{top:7%; left:69%; width:6%; height:4%;}
+
+/* BOUTONS CENTRE */
+.btn-equipe{top:62%; left:36%; width:9%; height:6%;}
+.btn-joueurs{top:62%; left:46%; width:9%; height:6%;}
+.btn-classement{top:62%; left:56%; width:10%; height:6%;}
+
+/* BILLETTERIE */
+.billetterie{top:5%; left:86%; width:10%; height:6%;}
 
 </style>
-
-
 </head>
-
-
 
 <body>
 
-
-
-<!-- INTRO CORBEAU -->
-
-<div class="intro">
-
-<img src="corbeau.png" class="raven">
-
-</div>
-
-
-
-
-
-<!-- ACCUEIL -->
-
-
 <section class="home">
 
-
-
-<div class="wing left"></div>
-
-<div class="wing right"></div>
-
-
-
-
-
-<header>
-
-
-<nav>
-
-
-<a href="#">ACCUEIL</a>
-
-<a href="#">ÉQUIPE</a>
-
-<a href="#">JOUEURS</a>
-
-<a href="#">CLASSEMENT</a>
-
-<a href="#">CLUB</a>
-
-<a href="#">ACTUALITÉS</a>
-
-<a href="#">CONTACT</a>
-
-
-</nav>
-
-
-</header>
-
-
-
-
-
-
-
-<div class="content">
-
-
-
-<h1 class="logo">
-
-FC KURO
-
-</h1>
-
-
-
-<p class="subtitle">
-
-THE BLACK RAVENS
-
-</p>
-
-
-
-
-<p class="slogan">
-
-UNITÉ. FORCE. PASSION.
-
-</p>
-
-
-
-
-
-<div class="buttons">
-
-
-<button>
-
-ÉQUIPE
-
-</button>
-
-
-
-<button>
-
-JOUEURS
-
-</button>
-
-
-
-<button class="outline">
-
-CLASSEMENT
-
-</button>
-
-
-
-</div>
-
-
-</div>
-
-
-
+    <img src="accueil.png" alt="FC Kuro">
+
+    <!-- MENU INVISIBLE CLIQUABLE -->
+    <a href="#" class="click accueil"></a>
+    <a href="#" class="click equipe"></a>
+    <a href="#" class="click joueurs"></a>
+    <a href="#" class="click classement"></a>
+    <a href="#" class="click club"></a>
+    <a href="#" class="click actualites"></a>
+    <a href="#" class="click contact"></a>
+
+    <!-- BOUTONS CENTRE -->
+    <a href="#" class="click btn-equipe"></a>
+    <a href="#" class="click btn-joueurs"></a>
+    <a href="#" class="click btn-classement"></a>
+
+    <!-- BILLETTERIE -->
+    <a href="#" class="click billetterie"></a>
 
 </section>
 
-
-
 </body>
-
 </html>
