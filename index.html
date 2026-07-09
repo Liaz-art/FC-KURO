@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>FC KURO</title>
 
 <style>
+
 *{
     margin:0;
     padding:0;
@@ -47,12 +50,22 @@ body{
 }
 
 @keyframes ravenIntro{
-    0%{opacity:0; transform:translateY(120px) scale(.4);}
-    40%{opacity:1;}
-    100%{opacity:1; transform:translateY(0) scale(1);}
+    0%{
+        opacity:0;
+        transform:translateY(120px) scale(.4);
+    }
+
+    40%{
+        opacity:1;
+    }
+
+    100%{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
 }
 
-/* ACCUEIL */
+/* PAGE ACCUEIL */
 
 .home{
     height:100vh;
@@ -162,7 +175,7 @@ nav a:hover{
     background:#a100ff;
 }
 
-/* CENTRE */
+/* CONTENU CENTRE */
 
 .content{
     position:absolute;
@@ -204,36 +217,7 @@ nav a:hover{
     color:#eee;
 }
 
-/* BOUTONS */
-
-.buttons{
-    margin-top:45px;
-}
-
-.btn{
-    display:inline-block;
-    margin:10px;
-    padding:17px 38px;
-    background:#7300e6;
-    color:white;
-    text-decoration:none;
-    font-weight:bold;
-    border-radius:8px;
-    box-shadow:0 0 25px #7300e6;
-    transition:.3s;
-}
-
-.btn:hover{
-    transform:translateY(-6px) scale(1.05);
-    background:#a100ff;
-}
-
-.btn.outline{
-    background:transparent;
-    border:2px solid #9b4dff;
-}
-
-/* CORBEAU DÉCOR */
+/* CORBEAU DECOR */
 
 .raven-shadow{
     position:absolute;
@@ -245,7 +229,7 @@ nav a:hover{
     text-shadow:0 0 60px #8a00ff;
 }
 
-/* BAS */
+/* BAS DE PAGE */
 
 .footer-text{
     position:absolute;
@@ -261,6 +245,7 @@ nav a:hover{
 /* RESPONSIVE */
 
 @media(max-width:900px){
+
     header{
         padding:0 25px;
     }
@@ -279,16 +264,12 @@ nav a:hover{
         letter-spacing:5px;
     }
 
-    .buttons{
-        display:flex;
-        flex-direction:column;
-    }
-
     .raven-shadow{
         font-size:180px;
         right:0;
     }
 }
+
 </style>
 </head>
 
@@ -307,7 +288,7 @@ nav a:hover{
 
     <div class="stadium"></div>
 
-    <div class="raven-shadow">♞</div>
+    <div class="raven-shadow">?</div>
 
     <header>
         <div class="logo-small">FC KURO</div>
@@ -333,12 +314,6 @@ nav a:hover{
         <p class="subtitle">THE BLACK RAVENS</p>
 
         <p class="slogan">UNITÉ • FORCE • PASSION</p>
-
-        <div class="buttons">
-            <a href="equipe.html" class="btn">ÉQUIPE</a>
-            <a href="joueurs.html" class="btn">JOUEURS</a>
-            <a href="classement.html" class="btn outline">CLASSEMENT</a>
-        </div>
     </div>
 
     <div class="footer-text">
