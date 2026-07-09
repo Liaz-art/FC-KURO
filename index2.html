@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FC Kuro</title>
+
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+
+body{
+
+    background:#050008;
+    color:white;
+    overflow:hidden;
+
+}
+
+
+/* =====================
+   INTRO CORBEAU
+===================== */
+
+
+.intro{
+
+    position:fixed;
+    width:100%;
+    height:100vh;
+
+    background:#000;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    z-index:999;
+
+    animation:hideIntro 5s forwards;
+
+}
+
+
+
+.raven{
+
+    width:350px;
+
+    filter:
+    drop-shadow(0 0 20px #7200ff)
+    drop-shadow(0 0 50px #9b00ff);
+
+    animation:ravenFly 4s ease-in-out;
+
+}
+
+
+
+@keyframes ravenFly{
+
+
+0%{
+
+    transform:
+    translateY(150px)
+    scale(.3);
+
+    opacity:0;
+
+}
+
+
+
+40%{
+
+    opacity:1;
+
+}
+
+
+
+100%{
+
+    transform:
+    translateY(-30px)
+    scale(1);
+
+    opacity:1;
+
+}
+
+
+}
+
+
+
+@keyframes hideIntro{
+
+
+0%,80%{
+
+    opacity:1;
+
+}
+
+
+100%{
+
+    opacity:0;
+    visibility:hidden;
+
+}
+
+
+}
+
+
+
+/* =====================
+   ACCUEIL
+===================== */
+
+
+.home{
+
+
+height:100vh;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+flex-direction:column;
+
+
+background:
+
+radial-gradient(
+circle,
+#52009b,
+#08000d 60%
+);
+
+
+opacity:0;
+
+animation:showHome 2s 4s forwards;
+
+
+}
+
+
+
+@keyframes showHome{
+
+to{
+
+opacity:1;
+
+}
+
+}
+
+
+
+/* Ombres ailes */
+
+.wing{
+
+
+position:absolute;
+
+width:300px;
+
+height:600px;
+
+
+background:
+linear-gradient(
+transparent,
+rgba(130,0,255,.3)
+);
+
+
+filter:blur(40px);
+
+
+}
+
+
+
+.left{
+
+left:-150px;
+
+transform:rotate(30deg);
+
+}
+
+
+
+.right{
+
+right:-150px;
+
+transform:rotate(-30deg);
+
+}
+
+
+
+
+
+/* LOGO */
+
+
+.logo{
+
+
+font-size:100px;
+
+font-weight:900;
+
+letter-spacing:15px;
+
+
+color:white;
+
+
+text-shadow:
+
+0 0 10px #7200ff,
+0 0 30px #7200ff,
+0 0 70px #a800ff;
+
+
+}
+
+
+
+
+.subtitle{
+
+
+margin-top:20px;
+
+
+font-size:25px;
+
+letter-spacing:8px;
+
+color:#d09aff;
+
+
+}
+
+
+
+
+/* BOUTONS */
+
+
+.buttons{
+
+
+margin-top:50px;
+
+
+}
+
+
+
+button{
+
+
+padding:15px 45px;
+
+margin:10px;
+
+
+background:#7200cc;
+
+
+border:none;
+
+
+color:white;
+
+font-size:18px;
+
+font-weight:bold;
+
+
+cursor:pointer;
+
+
+border-radius:8px;
+
+
+box-shadow:
+
+0 0 20px #7200cc;
+
+
+transition:.3s;
+
+
+}
+
+
+
+button:hover{
+
+
+background:#a600ff;
+
+transform:scale(1.1);
+
+
+}
+
+
+
+
+</style>
+
+
+</head>
+
+
+<body>
+
+
+
+<!-- INTRODUCTION -->
+
+<div class="intro">
+
+    <img src="corbeau.png" class="raven">
+
+</div>
+
+
+
+
+<!-- PAGE ACCUEIL -->
+
+
+<section class="home">
+
+
+<div class="wing left"></div>
+
+<div class="wing right"></div>
+
+
+
+<h1 class="logo">
+
+FC KURO
+
+</h1>
+
+
+
+<p class="subtitle">
+
+THE BLACK RAVENS
+
+</p>
+
+
+
+
+<div class="buttons">
+
+
+<button>
+ÉQUIPE
+</button>
+
+
+<button>
+JOUEURS
+</button>
+
+
+<button>
+CLASSEMENT
+</button>
+
+
+</div>
+
+
+
+</section>
+
+
+
+</body>
+
+</html>
