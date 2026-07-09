@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FC KURO - Joueurs</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#050008;
+    color:white;
+    min-height:100vh;
+}
+
+/* HEADER */
+
+header{
+    width:100%;
+    height:90px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 55px;
+    background:rgba(0,0,0,.75);
+    border-bottom:1px solid rgba(153,0,255,.4);
+    box-shadow:0 0 25px rgba(123,0,255,.25);
+}
+
+.logo{
+    font-size:26px;
+    font-weight:900;
+    letter-spacing:3px;
+    color:white;
+    text-decoration:none;
+    text-shadow:0 0 15px #8a00ff;
+}
+
+nav{
+    display:flex;
+    gap:28px;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    font-size:13px;
+    font-weight:bold;
+    letter-spacing:1px;
+    transition:.3s;
+}
+
+nav a:hover,
+nav a.active{
+    color:#b56cff;
+    text-shadow:0 0 15px #9b00ff;
+}
+
+/* PAGE */
+
+.page{
+    padding:60px 8%;
+    min-height:calc(100vh - 90px);
+    background:
+    radial-gradient(circle at top right, rgba(120,0,255,.35), transparent 35%),
+    radial-gradient(circle at bottom left, rgba(0,255,255,.12), transparent 35%),
+    #050008;
+}
+
+.title{
+    text-align:center;
+    font-size:55px;
+    letter-spacing:8px;
+    text-shadow:
+    0 0 15px #7b00ff,
+    0 0 45px #7b00ff;
+}
+
+.subtitle{
+    text-align:center;
+    margin-top:15px;
+    color:#c79aff;
+    letter-spacing:5px;
+    font-size:14px;
+}
+
+/* CATEGORIES */
+
+.categories{
+    margin-top:60px;
+    display:flex;
+    flex-direction:column;
+    gap:25px;
+}
+
+.category{
+    border:1px solid rgba(154,0,255,.5);
+    background:rgba(0,0,0,.45);
+    box-shadow:0 0 25px rgba(123,0,255,.18);
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.category-title{
+    width:100%;
+    padding:22px 30px;
+    background:linear-gradient(90deg, rgba(123,0,255,.55), rgba(0,0,0,.3));
+    color:white;
+    font-size:22px;
+    font-weight:900;
+    letter-spacing:4px;
+    cursor:pointer;
+    border:none;
+    text-align:left;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.category-title span{
+    color:#c79aff;
+}
+
+.category-content{
+    display:none;
+    padding:30px;
+}
+
+.category.open .category-content{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(230px, 1fr));
+    gap:30px;
+}
+
+/* CARTE JOUEUR */
+
+.player-card{
+    background:rgba(0,0,0,.55);
+    border:1px solid rgba(0,255,255,.35);
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 0 25px rgba(0,255,255,.12);
+    transition:.3s;
+}
+
+.player-card:hover{
+    transform:translateY(-8px);
+    box-shadow:
+    0 0 25px rgba(0,255,255,.35),
+    0 0 45px rgba(123,0,255,.25);
+}
+
+.player-card img{
+    width:100%;
+    height:330px;
+    object-fit:cover;
+    cursor:pointer;
+    display:block;
+}
+
+.player-info{
+    padding:18px;
+    text-align:center;
+}
+
+.player-info h3{
+    font-size:20px;
+    letter-spacing:2px;
+}
+
+.player-info p{
+    margin-top:8px;
+    color:#c79aff;
+    font-size:14px;
+}
+
+/* LIKE */
+
+.like-box{
+    margin-top:15px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:12px;
+}
+
+.like-btn{
+    padding:10px 18px;
+    border:none;
+    border-radius:8px;
+    background:#7200ff;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    box-shadow:0 0 18px #7200ff;
+    transition:.3s;
+}
+
+.like-btn:hover{
+    background:#a100ff;
+    transform:scale(1.05);
+}
+
+.like-btn.liked{
+    background:#00bcd4;
+    box-shadow:0 0 18px #00eaff;
+}
+
+.likes{
+    font-weight:bold;
+    color:#00eaff;
+}
+
+/* ZOOM IMAGE */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.9);
+    z-index:999;
+    justify-content:center;
+    align-items:center;
+}
+
+.modal.open{
+    display:flex;
+}
+
+.modal img{
+    max-width:90%;
+    max-height:90%;
+    border:2px solid #7b00ff;
+    box-shadow:
+    0 0 30px #7b00ff,
+    0 0 70px #00eaff;
+}
+
+.close{
+    position:absolute;
+    top:30px;
+    right:45px;
+    font-size:45px;
+    cursor:pointer;
+    color:white;
+}
+
+@media(max-width:800px){
+    header{
+        padding:0 25px;
+    }
+
+    nav{
+        display:none;
+    }
+
+    .title{
+        font-size:38px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+    <a href="index.html" class="logo">FC KURO</a>
+
+    <nav>
+        <a href="index.html">ACCUEIL</a>
+        <a href="equipe.html">ÉQUIPE</a>
+        <a href="joueurs.html" class="active">JOUEURS</a>
+        <a href="classement.html">CLASSEMENT</a>
+        <a href="club.html">CLUB</a>
+    </nav>
+</header>
+
+<section class="page">
+
+    <h1 class="title">JOUEURS</h1>
+    <p class="subtitle">FICHES OFFICIELLES FC KURO</p>
+
+    <div class="categories">
+
+        <div class="category">
+            <button class="category-title">BU <span>+</span></button>
+            <div class="category-content"></div>
+        </div>
+
+        <div class="category open">
+            <button class="category-title">MILIEU <span>-</span></button>
+
+            <div class="category-content">
+
+                <div class="player-card">
+                    <img src="liaz-leka.png" alt="Liaz Leka" onclick="openModal(this.src)">
+
+                    <div class="player-info">
+                        <h3>LIAZ LEKA</h3>
+                        <p>MC - Milieu Central</p>
+
+                        <div class="like-box">
+                            <button class="like-btn" onclick="likePlayer(this, 'liazLeka')">LIKE</button>
+                            <span class="likes" id="liazLeka">0</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="category">
+            <button class="category-title">DÉFENSEUR <span>+</span></button>
+            <div class="category-content"></div>
+        </div>
+
+        <div class="category">
+            <button class="category-title">GARDIEN <span>+</span></button>
+            <div class="category-content"></div>
+        </div>
+
+    </div>
+
+</section>
+
+<div class="modal" id="modal">
+    <span class="close" onclick="closeModal()">×</span>
+    <img id="modalImg" src="">
+</div>
+
+<script>
+const categories = document.querySelectorAll(".category");
+
+categories.forEach(category => {
+    const button = category.querySelector(".category-title");
+    const icon = button.querySelector("span");
+
+    button.addEventListener("click", () => {
+        category.classList.toggle("open");
+        icon.textContent = category.classList.contains("open") ? "-" : "+";
+    });
+});
+
+function openModal(src){
+    document.getElementById("modalImg").src = src;
+    document.getElementById("modal").classList.add("open");
+}
+
+function closeModal(){
+    document.getElementById("modal").classList.remove("open");
+}
+
+function likePlayer(button, playerId){
+    const alreadyLiked = localStorage.getItem("liked_" + playerId);
+
+    if(alreadyLiked){
+        alert("Tu as déjà liké ce joueur.");
+        return;
+    }
+
+    let likes = localStorage.getItem("likes_" + playerId);
+
+    if(!likes){
+        likes = 0;
+    }
+
+    likes++;
+
+    localStorage.setItem("likes_" + playerId, likes);
+    localStorage.setItem("liked_" + playerId, "true");
+
+    document.getElementById(playerId).textContent = likes;
+
+    button.classList.add("liked");
+    button.textContent = "LIKÉ";
+}
+
+window.addEventListener("load", () => {
+    const players = ["liazLeka"];
+
+    players.forEach(playerId => {
+        const likes = localStorage.getItem("likes_" + playerId) || 0;
+        document.getElementById(playerId).textContent = likes;
+
+        if(localStorage.getItem("liked_" + playerId)){
+            const btn = document.querySelector(`button[onclick*="${playerId}"]`);
+            btn.classList.add("liked");
+            btn.textContent = "LIKÉ";
+        }
+    });
+});
+</script>
+
+</body>
+</html>
