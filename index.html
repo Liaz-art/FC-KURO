@@ -11,77 +11,351 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
 }
 
 body{
-    background:#000;
+    background:#050008;
+    color:white;
     overflow:hidden;
 }
 
+/* INTRO */
+
+.intro{
+    position:fixed;
+    inset:0;
+    background:#000;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+    transition:1s;
+}
+
+.intro.hide{
+    opacity:0;
+    visibility:hidden;
+}
+
+.intro img{
+    width:360px;
+    filter:
+    drop-shadow(0 0 25px #7b00ff)
+    drop-shadow(0 0 70px #9b00ff);
+    animation:ravenIntro 4s ease;
+}
+
+@keyframes ravenIntro{
+    0%{opacity:0; transform:translateY(120px) scale(.4);}
+    40%{opacity:1;}
+    100%{opacity:1; transform:translateY(0) scale(1);}
+}
+
+/* ACCUEIL */
+
 .home{
-    width:100vw;
     height:100vh;
-    position:relative;
-}
-
-.home img{
     width:100%;
-    height:100%;
-    object-fit:cover;
-    display:block;
+    position:relative;
+    overflow:hidden;
+    background:
+    linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.85)),
+    radial-gradient(circle at center, #4b008f 0%, #090010 45%, #000 100%);
 }
 
-/* LIENS INVISIBLES */
-.click{
+/* FOND STADE */
+
+.stadium{
     position:absolute;
-    display:block;
-    background:transparent;
+    bottom:0;
+    width:100%;
+    height:45%;
+    background:
+    linear-gradient(to top, #120020, transparent),
+    repeating-linear-gradient(
+        90deg,
+        #18002c 0px,
+        #18002c 80px,
+        #230040 80px,
+        #230040 160px
+    );
+    clip-path:polygon(0 40%,100% 20%,100% 100%,0 100%);
+    opacity:.8;
 }
 
-/* MENU DU HAUT */
-.accueil{top:7%; left:25%; width:5%; height:4%;}
-.equipe{top:7%; left:31%; width:5%; height:4%;}
-.joueurs{top:7%; left:37%; width:6%; height:4%;}
-.classement{top:7%; left:45%; width:8%; height:4%;}
-.club{top:7%; left:54%; width:4%; height:4%;}
-.actualites{top:7%; left:60%; width:8%; height:4%;}
-.contact{top:7%; left:69%; width:6%; height:4%;}
+/* LUMIÈRES */
 
-/* BOUTONS CENTRE */
-.btn-equipe{top:62%; left:36%; width:9%; height:6%;}
-.btn-joueurs{top:62%; left:46%; width:9%; height:6%;}
-.btn-classement{top:62%; left:56%; width:10%; height:6%;}
+.light{
+    position:absolute;
+    width:320px;
+    height:320px;
+    background:#8a00ff;
+    filter:blur(120px);
+    opacity:.55;
+}
 
-/* BILLETTERIE */
-.billetterie{top:5%; left:86%; width:10%; height:6%;}
+.light.left{
+    left:-100px;
+    top:180px;
+}
 
+.light.right{
+    right:-100px;
+    top:150px;
+}
+
+/* HEADER */
+
+header{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:90px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 55px;
+    z-index:5;
+}
+
+.logo-small{
+    font-size:26px;
+    font-weight:900;
+    letter-spacing:3px;
+    text-shadow:0 0 15px #8a00ff;
+}
+
+nav{
+    display:flex;
+    gap:28px;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    font-size:13px;
+    font-weight:bold;
+    letter-spacing:1px;
+    transition:.3s;
+}
+
+nav a:hover{
+    color:#b56cff;
+    text-shadow:0 0 15px #9b00ff;
+}
+
+.ticket{
+    padding:13px 25px;
+    background:#7b00ff;
+    color:white;
+    text-decoration:none;
+    font-weight:bold;
+    border-radius:6px;
+    box-shadow:0 0 20px #7b00ff;
+    transition:.3s;
+}
+
+.ticket:hover{
+    transform:scale(1.08);
+    background:#a100ff;
+}
+
+/* CENTRE */
+
+.content{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    text-align:center;
+    z-index:4;
+}
+
+.badge{
+    color:#c79aff;
+    letter-spacing:8px;
+    font-size:14px;
+    margin-bottom:20px;
+}
+
+.title{
+    font-size:105px;
+    font-weight:900;
+    letter-spacing:15px;
+    text-shadow:
+    0 0 10px #7b00ff,
+    0 0 35px #7b00ff,
+    0 0 80px #a100ff;
+}
+
+.subtitle{
+    margin-top:10px;
+    font-size:27px;
+    letter-spacing:9px;
+    color:#d2a8ff;
+}
+
+.slogan{
+    margin-top:30px;
+    font-size:15px;
+    letter-spacing:7px;
+    color:#eee;
+}
+
+/* BOUTONS */
+
+.buttons{
+    margin-top:45px;
+}
+
+.btn{
+    display:inline-block;
+    margin:10px;
+    padding:17px 38px;
+    background:#7300e6;
+    color:white;
+    text-decoration:none;
+    font-weight:bold;
+    border-radius:8px;
+    box-shadow:0 0 25px #7300e6;
+    transition:.3s;
+}
+
+.btn:hover{
+    transform:translateY(-6px) scale(1.05);
+    background:#a100ff;
+}
+
+.btn.outline{
+    background:transparent;
+    border:2px solid #9b4dff;
+}
+
+/* CORBEAU DÉCOR */
+
+.raven-shadow{
+    position:absolute;
+    right:8%;
+    top:22%;
+    font-size:260px;
+    opacity:.12;
+    transform:rotate(-12deg);
+    text-shadow:0 0 60px #8a00ff;
+}
+
+/* BAS */
+
+.footer-text{
+    position:absolute;
+    bottom:35px;
+    left:50%;
+    transform:translateX(-50%);
+    color:#b98cff;
+    letter-spacing:6px;
+    font-size:13px;
+    z-index:3;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+    header{
+        padding:0 25px;
+    }
+
+    nav{
+        display:none;
+    }
+
+    .title{
+        font-size:60px;
+        letter-spacing:8px;
+    }
+
+    .subtitle{
+        font-size:18px;
+        letter-spacing:5px;
+    }
+
+    .buttons{
+        display:flex;
+        flex-direction:column;
+    }
+
+    .raven-shadow{
+        font-size:180px;
+        right:0;
+    }
+}
 </style>
 </head>
 
 <body>
 
+<!-- INTRO -->
+<div class="intro" id="intro">
+    <img src="corbeau.png" alt="Corbeau FC Kuro">
+</div>
+
+<!-- ACCUEIL -->
 <section class="home">
 
-    <img src="accueil.png" alt="FC Kuro">
+    <div class="light left"></div>
+    <div class="light right"></div>
 
-    <!-- MENU INVISIBLE CLIQUABLE -->
-    <a href="#" class="click accueil"></a>
-    <a href="#" class="click equipe"></a>
-    <a href="#" class="click joueurs"></a>
-    <a href="#" class="click classement"></a>
-    <a href="#" class="click club"></a>
-    <a href="#" class="click actualites"></a>
-    <a href="#" class="click contact"></a>
+    <div class="stadium"></div>
 
-    <!-- BOUTONS CENTRE -->
-    <a href="#" class="click btn-equipe"></a>
-    <a href="#" class="click btn-joueurs"></a>
-    <a href="#" class="click btn-classement"></a>
+    <div class="raven-shadow">♞</div>
 
-    <!-- BILLETTERIE -->
-    <a href="#" class="click billetterie"></a>
+    <header>
+        <div class="logo-small">FC KURO</div>
+
+        <nav>
+            <a href="index.html">ACCUEIL</a>
+            <a href="equipe.html">ÉQUIPE</a>
+            <a href="joueurs.html">JOUEURS</a>
+            <a href="classement.html">CLASSEMENT</a>
+            <a href="club.html">CLUB</a>
+            <a href="actualites.html">ACTUALITÉS</a>
+            <a href="contact.html">CONTACT</a>
+        </nav>
+
+        <a href="billetterie.html" class="ticket">BILLETTERIE</a>
+    </header>
+
+    <div class="content">
+        <p class="badge">CLUB OFFICIEL</p>
+
+        <h1 class="title">FC KURO</h1>
+
+        <p class="subtitle">THE BLACK RAVENS</p>
+
+        <p class="slogan">UNITÉ • FORCE • PASSION</p>
+
+        <div class="buttons">
+            <a href="equipe.html" class="btn">ÉQUIPE</a>
+            <a href="joueurs.html" class="btn">JOUEURS</a>
+            <a href="classement.html" class="btn outline">CLASSEMENT</a>
+        </div>
+    </div>
+
+    <div class="footer-text">
+        DOMINER LE TERRAIN DANS L’OMBRE
+    </div>
 
 </section>
+
+<script>
+window.addEventListener("load", function(){
+    const intro = document.getElementById("intro");
+
+    setTimeout(function(){
+        intro.classList.add("hide");
+    }, 4300);
+});
+</script>
 
 </body>
 </html>
