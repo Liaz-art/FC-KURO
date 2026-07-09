@@ -92,9 +92,7 @@ nav a.active{
     font-size:14px;
 }
 
-    /* ===========================
-        CATEGORIES
-=========================== */
+    /* CATEGORIES */
 
 .categories{
     margin-top:60px;
@@ -143,9 +141,7 @@ nav a.active{
     justify-content:flex-start;
 }
 
-/* ===========================
-        CARTE JOUEUR
-=========================== */
+/* CARTE JOUEUR */
 
 .player-card{
     width:240px;
@@ -190,9 +186,7 @@ nav a.active{
     font-size:13px;
 }
 
-/* ===========================
-            LIKE
-=========================== */
+    /* LIKE */
 
 .like-box{
     margin-top:15px;
@@ -211,14 +205,17 @@ nav a.active{
     cursor:pointer;
     font-weight:bold;
     transition:.3s;
+    box-shadow:0 0 18px #7200ff;
 }
 
 .like-btn:hover{
     background:#a100ff;
+    transform:scale(1.05);
 }
 
 .like-btn.liked{
     background:#00bcd4;
+    box-shadow:0 0 18px #00eaff;
 }
 
 .likes{
@@ -226,9 +223,7 @@ nav a.active{
     font-weight:bold;
 }
 
-/* ===========================
-        MODAL IMAGE
-=========================== */
+/* MODAL IMAGE */
 
 .modal{
     position:fixed;
@@ -266,20 +261,20 @@ nav a.active{
 @media(max-width:800px){
 
 header{
-padding:0 20px;
+    padding:0 20px;
 }
 
 nav{
-display:none;
+    display:none;
 }
 
 .category.open .category-content{
-grid-template-columns:1fr;
-justify-items:center;
+    grid-template-columns:1fr;
+    justify-items:center;
 }
 
 .title{
-font-size:38px;
+    font-size:38px;
 }
 
 }
@@ -359,14 +354,14 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebas
 import { getDatabase, ref, onValue, runTransaction, get, set, remove } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
 
 const firebaseConfig = {
-    apiKey: "TON_API_KEY",
-    authDomain: "TON_AUTH_DOMAIN",
-    databaseURL: "TON_DATABASE_URL",
-    projectId: "TON_PROJECT_ID",
-    storageBucket: "TON_STORAGE_BUCKET",
-    messagingSenderId: "TON_MESSAGING_SENDER_ID",
-    appId: "TON_APP_ID",
-    measurementId: "TON_MEASUREMENT_ID"
+    apiKey: "AIzaSyDKXeWWcV2CC4rP_b6R_W8Ps3mGsDYOhOY",
+    authDomain: "fc-kuro.firebaseapp.com",
+    databaseURL: "https://fc-kuro-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "fc-kuro",
+    storageBucket: "fc-kuro.firebasestorage.app",
+    messagingSenderId: "420379848342",
+    appId: "1:420379848342:web:c5c5f66ad096cdd827dcb7",
+    measurementId: "G-Y2T0Q3BR6E"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -387,7 +382,8 @@ players.forEach(playerId => {
     const button = document.querySelector(`button[data-player="${playerId}"]`);
 
     onValue(likesRef, snapshot => {
-        document.getElementById(playerId).textContent = snapshot.val() || 0;
+        const likes = snapshot.val() || 0;
+        document.getElementById(playerId).textContent = likes;
     });
 
     onValue(voterRef, snapshot => {
