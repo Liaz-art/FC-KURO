@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>FC Kuro</title>
+<title>FC KURO</title>
 
 
 <style>
@@ -28,6 +28,7 @@ body{
 }
 
 
+
 /* =====================
    INTRO CORBEAU
 ===================== */
@@ -36,12 +37,14 @@ body{
 .intro{
 
     position:fixed;
+
     width:100%;
     height:100vh;
 
     background:#000;
 
     display:flex;
+
     justify-content:center;
     align-items:center;
 
@@ -59,7 +62,7 @@ body{
 
     filter:
     drop-shadow(0 0 20px #7200ff)
-    drop-shadow(0 0 50px #9b00ff);
+    drop-shadow(0 0 60px #a100ff);
 
     animation:ravenFly 4s ease-in-out;
 
@@ -72,11 +75,11 @@ body{
 
 0%{
 
-    transform:
-    translateY(150px)
-    scale(.3);
+transform:
+translateY(150px)
+scale(.3);
 
-    opacity:0;
+opacity:0;
 
 }
 
@@ -84,7 +87,7 @@ body{
 
 40%{
 
-    opacity:1;
+opacity:1;
 
 }
 
@@ -92,14 +95,13 @@ body{
 
 100%{
 
-    transform:
-    translateY(-30px)
-    scale(1);
+transform:
+translateY(-30px)
+scale(1);
 
-    opacity:1;
+opacity:1;
 
 }
-
 
 }
 
@@ -110,18 +112,17 @@ body{
 
 0%,80%{
 
-    opacity:1;
+opacity:1;
 
 }
 
 
 100%{
 
-    opacity:0;
-    visibility:hidden;
+opacity:0;
+visibility:hidden;
 
 }
-
 
 }
 
@@ -134,25 +135,26 @@ body{
 
 .home{
 
-
 height:100vh;
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
-flex-direction:column;
+width:100%;
 
 
-background:
+background-image:
 
-radial-gradient(
-circle,
-#52009b,
-#08000d 60%
-);
+linear-gradient(
+rgba(0,0,0,.45),
+rgba(0,0,0,.8)
+),
+
+url("accueil.png");
+
+
+background-size:cover;
+
+background-position:center;
+
+
+position:relative;
 
 
 opacity:0;
@@ -176,7 +178,10 @@ opacity:1;
 
 
 
-/* Ombres ailes */
+/* =====================
+   AILES LUMINEUSES
+===================== */
+
 
 .wing{
 
@@ -189,9 +194,10 @@ height:600px;
 
 
 background:
+
 linear-gradient(
 transparent,
-rgba(130,0,255,.3)
+rgba(130,0,255,.35)
 );
 
 
@@ -206,6 +212,8 @@ filter:blur(40px);
 
 left:-150px;
 
+top:200px;
+
 transform:rotate(30deg);
 
 }
@@ -216,6 +224,8 @@ transform:rotate(30deg);
 
 right:-150px;
 
+top:200px;
+
 transform:rotate(-30deg);
 
 }
@@ -224,7 +234,107 @@ transform:rotate(-30deg);
 
 
 
-/* LOGO */
+/* =====================
+   MENU
+===================== */
+
+
+header{
+
+
+position:absolute;
+
+top:35px;
+
+left:0;
+
+width:100%;
+
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+
+}
+
+
+
+nav{
+
+display:flex;
+
+gap:45px;
+
+}
+
+
+
+nav a{
+
+
+color:white;
+
+text-decoration:none;
+
+font-size:14px;
+
+font-weight:bold;
+
+letter-spacing:1px;
+
+
+transition:.3s;
+
+
+}
+
+
+
+nav a:hover{
+
+
+color:#a100ff;
+
+
+text-shadow:
+
+0 0 10px #a100ff;
+
+
+}
+
+
+
+/* =====================
+   CONTENU CENTRAL
+===================== */
+
+
+.content{
+
+
+position:absolute;
+
+top:50%;
+
+left:50%;
+
+
+transform:
+
+translate(-50%,-50%);
+
+
+text-align:center;
+
+
+}
+
+
+
 
 
 .logo{
@@ -242,12 +352,15 @@ color:white;
 
 text-shadow:
 
-0 0 10px #7200ff,
-0 0 30px #7200ff,
-0 0 70px #a800ff;
+0 0 10px #7000ff,
+
+0 0 30px #7000ff,
+
+0 0 80px #a800ff;
 
 
 }
+
 
 
 
@@ -255,14 +368,13 @@ text-shadow:
 .subtitle{
 
 
-margin-top:20px;
-
-
 font-size:25px;
 
-letter-spacing:8px;
+letter-spacing:10px;
 
 color:#d09aff;
+
+margin-top:15px;
 
 
 }
@@ -270,7 +382,25 @@ color:#d09aff;
 
 
 
-/* BOUTONS */
+.slogan{
+
+
+margin-top:35px;
+
+letter-spacing:8px;
+
+font-size:14px;
+
+color:#d6b0ff;
+
+
+}
+
+
+
+/* =====================
+   BOUTONS
+===================== */
 
 
 .buttons{
@@ -283,36 +413,41 @@ margin-top:50px;
 
 
 
+
 button{
 
 
-padding:15px 45px;
+width:160px;
+
+height:55px;
+
 
 margin:10px;
 
 
-background:#7200cc;
+background:#6000d9;
 
 
-border:none;
+border:1px solid #9b4dff;
 
 
 color:white;
 
-font-size:18px;
 
 font-weight:bold;
 
-
-cursor:pointer;
+font-size:16px;
 
 
 border-radius:8px;
 
 
+cursor:pointer;
+
+
 box-shadow:
 
-0 0 20px #7200cc;
+0 0 25px #7300ff;
 
 
 transition:.3s;
@@ -322,16 +457,33 @@ transition:.3s;
 
 
 
+
 button:hover{
 
 
-background:#a600ff;
+background:#a100ff;
 
-transform:scale(1.1);
+
+transform:scale(1.08);
+
+
+box-shadow:
+
+0 0 40px #a100ff;
 
 
 }
 
+
+
+
+.outline{
+
+
+background:transparent;
+
+
+}
 
 
 
@@ -345,11 +497,11 @@ transform:scale(1.1);
 
 
 
-<!-- INTRODUCTION -->
+<!-- INTRO CORBEAU -->
 
 <div class="intro">
 
-    <img src="corbeau.png" class="raven">
+<img src="corbeau.png" class="raven">
 
 </div>
 
@@ -362,10 +514,46 @@ transform:scale(1.1);
 <section class="home">
 
 
+
 <div class="wing left"></div>
 
 <div class="wing right"></div>
 
+
+
+
+
+<header>
+
+
+<nav>
+
+
+<a href="#">ACCUEIL</a>
+
+<a href="#">ÉQUIPE</a>
+
+<a href="#">JOUEURS</a>
+
+<a href="#">CLASSEMENT</a>
+
+<a href="#">CLUB</a>
+
+<a href="#">ACTUALITÉS</a>
+
+<a href="#">CONTACT</a>
+
+
+</nav>
+
+
+</header>
+
+
+
+
+
+<div class="content">
 
 
 <h1 class="logo">
@@ -385,22 +573,40 @@ THE BLACK RAVENS
 
 
 
+<p class="slogan">
+
+UNITÉ. FORCE. PASSION.
+
+</p>
+
+
+
+
 <div class="buttons">
 
 
 <button>
+
 ÉQUIPE
+
 </button>
 
 
 <button>
+
 JOUEURS
+
 </button>
 
 
-<button>
+<button class="outline">
+
 CLASSEMENT
+
 </button>
+
+
+</div>
 
 
 </div>
