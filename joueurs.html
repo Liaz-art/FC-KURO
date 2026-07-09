@@ -356,62 +356,69 @@ font-size:38px;
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-import { getDatabase, ref, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
+import { getDatabase, ref, onValue, runTransaction, get, set, remove } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyDKXeWWcV2CC4rP_b6R_W8Ps3mGsDYOhOY",
-    authDomain: "fc-kuro.firebaseapp.com",
-    databaseURL: "https://fc-kuro-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "fc-kuro",
-    storageBucket: "fc-kuro.firebasestorage.app",
-    messagingSenderId: "420379848342",
-    appId: "1:420379848342:web:c5c5f66ad096cdd827dcb7",
-    measurementId: "G-Y2T0Q3BR6E"
+const firebaseConfig = {
+    apiKey: "TON_API_KEY",
+    authDomain: "TON_AUTH_DOMAIN",
+    databaseURL: "TON_DATABASE_URL",
+    projectId: "TON_PROJECT_ID",
+    storageBucket: "TON_STORAGE_BUCKET",
+    messagingSenderId: "TON_MESSAGING_SENDER_ID",
+    appId: "TON_APP_ID",
+    measurementId: "TON_MEASUREMENT_ID"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
+let userId = localStorage.getItem("fcKuroUserId");
+
+if(!userId){
+    userId = "user_" + crypto.randomUUID();
+    localStorage.setItem("fcKuroUserId", userId);
+}
+
 const players = ["liazLeka"];
 
 players.forEach(playerId => {
-    const likeRef = ref(db, "players/" + playerId + "/likes");
+    const likesRef = ref(db, "players/" + playerId + "/likes");
+    const voterRef = ref(db, "players/" + playerId + "/voters/" + userId);
+    const button = document.querySelector(`button[data-player="${playerId}"]`);
 
-    onValue(likeRef, snapshot => {
+    onValue(likesRef, snapshot => {
         document.getElementById(playerId).textContent = snapshot.val() || 0;
     });
 
-    const button = document.querySelector(`button[data-player="${playerId}"]`);
-
-    if(localStorage.getItem("liked_" + playerId)){
-        button.classList.add("liked");
-        button.textContent = "LIKÉ";
-    }
-});
-
-window.likePlayer = function(button, playerId){
-    const likedKey = "liked_" + playerId;
-    const alreadyLiked = localStorage.getItem(likedKey);
-    const likeRef = ref(db, "players/" + playerId + "/likes");
-
-    runTransaction(likeRef, currentLikes => {
-        currentLikes = currentLikes || 0;
-
-        if(alreadyLiked){
-            return Math.max(0, currentLikes - 1);
+    onValue(voterRef, snapshot => {
+        if(snapshot.exists()){
+            button.classList.add("liked");
+            button.textContent = "LIKÉ";
         }else{
-            return currentLikes + 1;
+            button.classList.remove("liked");
+            button.textContent = "LIKE";
         }
     });
+});
 
-    if(alreadyLiked){
-        localStorage.removeItem(likedKey);
-        button.classList.remove("liked");
-        button.textContent = "LIKE";
+window.likePlayer = async function(button, playerId){
+    const likesRef = ref(db, "players/" + playerId + "/likes");
+    const voterRef = ref(db, "players/" + playerId + "/voters/" + userId);
+
+    const voteSnapshot = await get(voterRef);
+
+    if(voteSnapshot.exists()){
+        await remove(voterRef);
+
+        await runTransaction(likesRef, currentLikes => {
+            return Math.max((currentLikes || 0) - 1, 0);
+        });
     }else{
-        localStorage.setItem(likedKey, "true");
-        button.classList.add("liked");
-        button.textContent = "LIKÉ";
+        await set(voterRef, true);
+
+        await runTransaction(likesRef, currentLikes => {
+            return (currentLikes || 0) + 1;
+        });
     }
 };
 
@@ -424,9 +431,7 @@ window.closeModal = function(){
     document.getElementById("modal").classList.remove("open");
 };
 
-const categories = document.querySelectorAll(".category");
-
-categories.forEach(category => {
+document.querySelectorAll(".category").forEach(category => {
     const button = category.querySelector(".category-title");
     const icon = button.querySelector("span");
 
