@@ -92,7 +92,7 @@ nav a.active{
     font-size:14px;
 }
 
-    /* CATEGORIES */
+/* CATEGORIES */
 
 .categories{
     margin-top:60px;
@@ -186,7 +186,7 @@ nav a.active{
     font-size:13px;
 }
 
-    /* LIKE */
+/* LIKE */
 
 .like-box{
     margin-top:15px;
@@ -208,7 +208,7 @@ nav a.active{
     box-shadow:0 0 18px #7200ff;
 }
 
-.like-btn:hover{
+.like-btn:hover:not(:disabled){
     background:#a100ff;
     transform:scale(1.05);
 }
@@ -216,6 +216,12 @@ nav a.active{
 .like-btn.liked{
     background:#00bcd4;
     box-shadow:0 0 18px #00eaff;
+}
+
+.like-btn:disabled{
+    opacity:.55;
+    cursor:not-allowed;
+    transform:none;
 }
 
 .likes{
@@ -260,29 +266,28 @@ nav a.active{
 
 @media(max-width:800px){
 
-header{
-    padding:0 20px;
-}
+    header{
+        padding:0 20px;
+    }
 
-nav{
-    display:none;
-}
+    nav{
+        display:none;
+    }
 
-.category.open .category-content{
-    grid-template-columns:1fr;
-    justify-items:center;
-}
+    .category.open .category-content{
+        grid-template-columns:1fr;
+        justify-items:center;
+    }
 
-.title{
-    font-size:38px;
-}
+    .title{
+        font-size:38px;
+    }
 
 }
-
 </style>
 </head>
 
-    <body>
+<body>
 
 <header>
     <a href="index.html" class="logo">FC KURO</a>
@@ -304,39 +309,78 @@ nav{
     <div class="categories">
 
         <div class="category">
-            <button class="category-title">BU <span>+</span></button>
+            <button class="category-title">
+                BU
+                <span>+</span>
+            </button>
+
             <div class="category-content"></div>
         </div>
 
         <div class="category open">
-            <button class="category-title">MILIEU <span>-</span></button>
+            <button class="category-title">
+                MILIEU
+                <span>-</span>
+            </button>
 
             <div class="category-content">
 
                 <div class="player-card">
-                    <img src="liaz-leka.png" alt="Liaz Leka" onclick="openModal(this.src)">
+
+                    <img
+                        src="liaz-leka.png"
+                        alt="Liaz Leka"
+                        onclick="openModal(this.src)"
+                    >
 
                     <div class="player-info">
+
                         <h3>LIAZ LEKA</h3>
+
                         <p>MC - Milieu Central</p>
 
                         <div class="like-box">
-                            <button class="like-btn" data-player="liazLeka" onclick="likePlayer(this, 'liazLeka')">LIKE</button>
-                            <span class="likes" id="liazLeka">0</span>
+
+                            <button
+                                class="like-btn"
+                                data-player="liazLeka"
+                                onclick="likePlayer(this, 'liazLeka')"
+                                disabled
+                            >
+                                CONNEXION...
+                            </button>
+
+                            <span
+                                class="likes"
+                                id="liazLeka"
+                            >
+                                0
+                            </span>
+
                         </div>
+
                     </div>
+
                 </div>
 
             </div>
         </div>
 
         <div class="category">
-            <button class="category-title">DÉFENSEUR <span>+</span></button>
+            <button class="category-title">
+                DÉFENSEUR
+                <span>+</span>
+            </button>
+
             <div class="category-content"></div>
         </div>
 
         <div class="category">
-            <button class="category-title">GARDIEN <span>+</span></button>
+            <button class="category-title">
+                GARDIEN
+                <span>+</span>
+            </button>
+
             <div class="category-content"></div>
         </div>
 
@@ -345,13 +389,42 @@ nav{
 </section>
 
 <div class="modal" id="modal">
-    <span class="close" onclick="closeModal()">×</span>
-    <img id="modalImg" src="">
+
+    <span
+        class="close"
+        onclick="closeModal()"
+    >
+        ×
+    </span>
+
+    <img
+        id="modalImg"
+        src=""
+        alt="Fiche du joueur"
+    >
+
 </div>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-import { getDatabase, ref, onValue, runTransaction, get, set, remove } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
+
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+import {
+    getDatabase,
+    ref,
+    onValue,
+    set,
+    remove
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
+
+import {
+    getAuth,
+    signInAnonymously,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
 
 const firebaseConfig = {
     apiKey: "AIzaSyCCXkp9d-FYi94-OYQ1rAJIlAA_TyfVc-k",
@@ -364,78 +437,315 @@ const firebaseConfig = {
     measurementId: "G-Y2T0Q3BR6E"
 };
 
+
 const app = initializeApp(firebaseConfig);
+
 const db = getDatabase(app);
+const auth = getAuth(app);
 
-let userId = localStorage.getItem("fcKuroUserId");
+const players = [
+    "liazLeka"
+];
 
-if(!userId){
-    userId = "user_" + crypto.randomUUID();
-    localStorage.setItem("fcKuroUserId", userId);
+let currentUser = null;
+let likesInitialized = false;
+
+
+/* ==================================
+   AUTHENTIFICATION ANONYME
+================================== */
+
+signInAnonymously(auth)
+    .catch((error) => {
+
+        console.error(
+            "Erreur d'authentification Firebase :",
+            error.code,
+            error.message
+        );
+
+        document
+            .querySelectorAll(".like-btn")
+            .forEach((button) => {
+
+                button.disabled = true;
+                button.textContent = "ERREUR";
+
+            });
+
+    });
+
+
+onAuthStateChanged(auth, (user) => {
+
+    if (!user) {
+
+        currentUser = null;
+
+        return;
+
+    }
+
+    currentUser = user;
+
+    console.log(
+        "Utilisateur connecté anonymement :",
+        currentUser.uid
+    );
+
+    if (!likesInitialized) {
+
+        initializeLikes();
+
+        likesInitialized = true;
+
+    }
+
+});
+
+
+/* ==================================
+   INITIALISATION DES LIKES
+================================== */
+
+function initializeLikes() {
+
+    players.forEach((playerId) => {
+
+        const playerLikesRef = ref(
+            db,
+            "likes/" + playerId
+        );
+
+        const button = document.querySelector(
+            `button[data-player="${playerId}"]`
+        );
+
+        const counter = document.getElementById(
+            playerId
+        );
+
+        if (!button || !counter) {
+
+            console.error(
+                "Bouton ou compteur introuvable pour :",
+                playerId
+            );
+
+            return;
+
+        }
+
+        button.disabled = false;
+        button.textContent = "LIKE";
+
+
+        onValue(
+            playerLikesRef,
+
+            (snapshot) => {
+
+                const likes = snapshot.val() || {};
+
+                const likesCount =
+                    Object.keys(likes).length;
+
+                counter.textContent =
+                    likesCount;
+
+
+                if (
+                    currentUser &&
+                    likes[currentUser.uid] === true
+                ) {
+
+                    button.classList.add("liked");
+                    button.textContent = "LIKÉ";
+
+                } else {
+
+                    button.classList.remove("liked");
+                    button.textContent = "LIKE";
+
+                }
+
+            },
+
+            (error) => {
+
+                console.error(
+                    "Erreur de lecture des likes :",
+                    error.code,
+                    error.message
+                );
+
+                button.disabled = true;
+                button.textContent = "ERREUR";
+
+            }
+
+        );
+
+    });
+
 }
 
-const players = ["liazLeka"];
 
-players.forEach(playerId => {
-    const likesRef = ref(db, "players/" + playerId + "/likes");
-    const voterRef = ref(db, "players/" + playerId + "/voters/" + userId);
-    const button = document.querySelector(`button[data-player="${playerId}"]`);
+/* ==================================
+   AJOUT OU SUPPRESSION D'UN LIKE
+================================== */
 
-    onValue(likesRef, snapshot => {
-        const likes = snapshot.val() || 0;
-        document.getElementById(playerId).textContent = likes;
-    });
+window.likePlayer = async function(button, playerId) {
 
-    onValue(voterRef, snapshot => {
-        if(snapshot.exists()){
-            button.classList.add("liked");
-            button.textContent = "LIKÉ";
-        }else{
-            button.classList.remove("liked");
-            button.textContent = "LIKE";
-        }
-    });
-});
+    if (!currentUser) {
 
-window.likePlayer = async function(button, playerId){
-    const likesRef = ref(db, "players/" + playerId + "/likes");
-    const voterRef = ref(db, "players/" + playerId + "/voters/" + userId);
+        console.error(
+            "L'utilisateur n'est pas encore authentifié."
+        );
 
-    const voteSnapshot = await get(voterRef);
+        return;
 
-    if(voteSnapshot.exists()){
-        await remove(voterRef);
-
-        await runTransaction(likesRef, currentLikes => {
-            return Math.max((currentLikes || 0) - 1, 0);
-        });
-    }else{
-        await set(voterRef, true);
-
-        await runTransaction(likesRef, currentLikes => {
-            return (currentLikes || 0) + 1;
-        });
     }
+
+    if (!players.includes(playerId)) {
+
+        console.error(
+            "Identifiant de joueur invalide."
+        );
+
+        return;
+
+    }
+
+    button.disabled = true;
+
+    const userLikeRef = ref(
+        db,
+        "likes/" +
+        playerId +
+        "/" +
+        currentUser.uid
+    );
+
+    try {
+
+        if (button.classList.contains("liked")) {
+
+            await remove(userLikeRef);
+
+        } else {
+
+            await set(userLikeRef, true);
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Erreur lors du like :",
+            error.code,
+            error.message
+        );
+
+        alert(
+            "Impossible d'enregistrer le like."
+        );
+
+    } finally {
+
+        button.disabled = false;
+
+    }
+
 };
 
-window.openModal = function(src){
-    document.getElementById("modalImg").src = src;
-    document.getElementById("modal").classList.add("open");
+
+/* ==================================
+   MODAL IMAGE
+================================== */
+
+window.openModal = function(src) {
+
+    const modal =
+        document.getElementById("modal");
+
+    const modalImg =
+        document.getElementById("modalImg");
+
+    modalImg.src = src;
+
+    modal.classList.add("open");
+
 };
 
-window.closeModal = function(){
-    document.getElementById("modal").classList.remove("open");
+
+window.closeModal = function() {
+
+    const modal =
+        document.getElementById("modal");
+
+    modal.classList.remove("open");
+
 };
 
-document.querySelectorAll(".category").forEach(category => {
-    const button = category.querySelector(".category-title");
-    const icon = button.querySelector("span");
 
-    button.addEventListener("click", () => {
-        category.classList.toggle("open");
-        icon.textContent = category.classList.contains("open") ? "-" : "+";
+document
+    .getElementById("modal")
+    .addEventListener("click", (event) => {
+
+        if (event.target.id === "modal") {
+
+            window.closeModal();
+
+        }
+
     });
-});
+
+
+document.addEventListener(
+    "keydown",
+    (event) => {
+
+        if (event.key === "Escape") {
+
+            window.closeModal();
+
+        }
+
+    }
+);
+
+
+/* ==================================
+   CATÉGORIES
+================================== */
+
+document
+    .querySelectorAll(".category")
+    .forEach((category) => {
+
+        const button =
+            category.querySelector(".category-title");
+
+        const icon =
+            button.querySelector("span");
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                category.classList.toggle("open");
+
+                icon.textContent =
+                    category.classList.contains("open")
+                        ? "-"
+                        : "+";
+
+            }
+        );
+
+    });
+
 </script>
 
 </body>
