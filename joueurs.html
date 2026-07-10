@@ -427,7 +427,7 @@ import {
 
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCCXkp9d-FYi94-OYQ1rAJIlAA_TyfVc-k",
+    apiKey: "TA_CLE_API",
     authDomain: "fc-kuro.firebaseapp.com",
     databaseURL: "https://fc-kuro-default-rtdb.europe-west1.firebasedatabase.app",
     projectId: "fc-kuro",
@@ -452,35 +452,32 @@ let likesInitialized = false;
 
 
 /* ==================================
-   AUTHENTIFICATION ANONYME
+   ÉTAT DES BOUTONS AU CHARGEMENT
 ================================== */
 
-signInAnonymously(auth)
-    .catch((error) => {
+document
+    .querySelectorAll(".like-btn")
+    .forEach((button) => {
 
-        console.error(
-            "Erreur d'authentification Firebase :",
-            error.code,
-            error.message
-        );
-
-        document
-            .querySelectorAll(".like-btn")
-            .forEach((button) => {
-
-                button.disabled = true;
-                button.textContent = "ERREUR";
-
-            });
+        button.disabled = true;
+        button.textContent = "CONNEXION...";
 
     });
 
+
+/* ==================================
+   AUTHENTIFICATION ANONYME
+================================== */
 
 onAuthStateChanged(auth, (user) => {
 
     if (!user) {
 
         currentUser = null;
+
+        console.log(
+            "Aucun utilisateur connecté pour le moment."
+        );
 
         return;
 
@@ -502,6 +499,40 @@ onAuthStateChanged(auth, (user) => {
     }
 
 });
+
+
+signInAnonymously(auth)
+    .then((userCredential) => {
+
+        console.log(
+            "Connexion anonyme réussie :",
+            userCredential.user.uid
+        );
+
+    })
+    .catch((error) => {
+
+        console.error(
+            "Erreur d'authentification Firebase :",
+            error.code,
+            error.message
+        );
+
+        document
+            .querySelectorAll(".like-btn")
+            .forEach((button) => {
+
+                button.disabled = true;
+                button.textContent = "ERREUR AUTH";
+
+            });
+
+        alert(
+            "Erreur de connexion Firebase : " +
+            error.code
+        );
+
+    });
 
 
 /* ==================================
@@ -536,10 +567,6 @@ function initializeLikes() {
 
         }
 
-        button.disabled = false;
-        button.textContent = "LIKE";
-
-
         onValue(
             playerLikesRef,
 
@@ -550,9 +577,7 @@ function initializeLikes() {
                 const likesCount =
                     Object.keys(likes).length;
 
-                counter.textContent =
-                    likesCount;
-
+                counter.textContent = likesCount;
 
                 if (
                     currentUser &&
@@ -569,6 +594,8 @@ function initializeLikes() {
 
                 }
 
+                button.disabled = false;
+
             },
 
             (error) => {
@@ -583,7 +610,6 @@ function initializeLikes() {
                 button.textContent = "ERREUR";
 
             }
-
         );
 
     });
@@ -603,6 +629,10 @@ window.likePlayer = async function(button, playerId) {
             "L'utilisateur n'est pas encore authentifié."
         );
 
+        alert(
+            "La connexion est encore en cours. Recharge la page."
+        );
+
         return;
 
     }
@@ -610,7 +640,8 @@ window.likePlayer = async function(button, playerId) {
     if (!players.includes(playerId)) {
 
         console.error(
-            "Identifiant de joueur invalide."
+            "Identifiant de joueur invalide :",
+            playerId
         );
 
         return;
@@ -633,9 +664,19 @@ window.likePlayer = async function(button, playerId) {
 
             await remove(userLikeRef);
 
+            console.log(
+                "Like supprimé pour :",
+                playerId
+            );
+
         } else {
 
             await set(userLikeRef, true);
+
+            console.log(
+                "Like ajouté pour :",
+                playerId
+            );
 
         }
 
@@ -648,7 +689,8 @@ window.likePlayer = async function(button, playerId) {
         );
 
         alert(
-            "Impossible d'enregistrer le like."
+            "Impossible d'enregistrer le like : " +
+            error.code
         );
 
     } finally {
