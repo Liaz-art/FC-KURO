@@ -64,8 +64,6 @@ nav a.active{
     text-shadow:0 0 15px #9b00ff;
 }
 
-/* PAGE */
-
 .page{
     padding:60px 8%;
     min-height:calc(100vh - 90px);
@@ -91,8 +89,6 @@ nav a.active{
     letter-spacing:5px;
     font-size:14px;
 }
-
-/* CATEGORIES */
 
 .categories{
     margin-top:60px;
@@ -129,19 +125,17 @@ nav a.active{
     color:#c79aff;
 }
 
+/* MODIFICATION */
 .category-content{
     display:none;
     padding:30px;
 }
 
 .category.open .category-content{
-    display:grid;
-    grid-template-columns:repeat(auto-fill, minmax(240px,240px));
+    display:flex;
+    flex-wrap:wrap;
     gap:30px;
-    justify-content:flex-start;
 }
-
-/* CARTE JOUEUR */
 
 .player-card{
     width:240px;
@@ -186,8 +180,6 @@ nav a.active{
     font-size:13px;
 }
 
-/* LIKE */
-
 .like-box{
     margin-top:15px;
     display:flex;
@@ -221,15 +213,12 @@ nav a.active{
 .like-btn:disabled{
     opacity:.55;
     cursor:not-allowed;
-    transform:none;
 }
 
 .likes{
     color:#00eaff;
     font-weight:bold;
 }
-
-/* MODAL IMAGE */
 
 .modal{
     position:fixed;
@@ -248,10 +237,6 @@ nav a.active{
 .modal img{
     max-width:90%;
     max-height:90%;
-    border:2px solid #7b00ff;
-    box-shadow:
-    0 0 30px #7b00ff,
-    0 0 70px #00eaff;
 }
 
 .close{
@@ -261,8 +246,6 @@ nav a.active{
     font-size:45px;
     cursor:pointer;
 }
-
-/* RESPONSIVE */
 
 @media(max-width:800px){
 
@@ -275,12 +258,7 @@ nav a.active{
     }
 
     .category.open .category-content{
-        grid-template-columns:1fr;
-        justify-items:center;
-    }
-
-    .title{
-        font-size:38px;
+        justify-content:center;
     }
 
 }
@@ -290,110 +268,164 @@ nav a.active{
 <body>
 
 <header>
-    <a href="index.html" class="logo">FC KURO</a>
 
-    <nav>
-        <a href="index.html">ACCUEIL</a>
-        <a href="equipe.html">ÉQUIPE</a>
-        <a href="joueurs.html" class="active">JOUEURS</a>
-        <a href="classement.html">CLASSEMENT</a>
-        <a href="club.html">CLUB</a>
-    </nav>
+<a href="index.html" class="logo">FC KURO</a>
+
+<nav>
+<a href="index.html">ACCUEIL</a>
+<a href="equipe.html">ÉQUIPE</a>
+<a href="joueurs.html" class="active">JOUEURS</a>
+<a href="classement.html">CLASSEMENT</a>
+<a href="club.html">CLUB</a>
+</nav>
+
 </header>
 
 <section class="page">
 
-    <h1 class="title">JOUEURS</h1>
-    <p class="subtitle">FICHES OFFICIELLES FC KURO</p>
+<h1 class="title">JOUEURS</h1>
+<p class="subtitle">FICHES OFFICIELLES FC KURO</p>
 
-    <div class="categories">
+<div class="categories">
 
-        <div class="category">
-            <button class="category-title">
-                BU
-                <span>+</span>
+<div class="category">
+<button class="category-title">
+BU
+<span>+</span>
+</button>
+
+<div class="category-content"></div>
+
+</div>
+
+<div class="category open">
+
+<button class="category-title">
+
+MILIEU
+
+<span>-</span>
+
+</button>
+
+<div class="category-content">
+
+    <!-- LIAZ LEKA -->
+<div class="player-card">
+
+    <img
+        src="liaz-leka.png"
+        alt="Liaz Leka"
+        onclick="openModal(this.src)"
+    >
+
+    <div class="player-info">
+
+        <h3>LIAZ LEKA</h3>
+
+        <p>MC - Milieu Central</p>
+
+        <div class="like-box">
+
+            <button
+                class="like-btn"
+                data-player="liazLeka"
+                onclick="likePlayer(this, 'liazLeka')"
+                disabled
+            >
+                CONNEXION...
             </button>
 
-            <div class="category-content"></div>
-        </div>
+            <span
+                class="likes"
+                id="liazLeka"
+            >
+                0
+            </span>
 
-        <div class="category open">
-            <button class="category-title">
-                MILIEU
-                <span>-</span>
-            </button>
-
-            <div class="category-content">
-
-                <div class="player-card">
-
-                    <img
-                        src="liaz-leka.png"
-                        alt="Liaz Leka"
-                        onclick="openModal(this.src)"
-                    >
-
-                    <div class="player-info">
-
-                        <h3>LIAZ LEKA</h3>
-
-                        <p>MC - Milieu Central</p>
-
-                        <div class="like-box">
-
-                            <button
-                                class="like-btn"
-                                data-player="liazLeka"
-                                onclick="likePlayer(this, 'liazLeka')"
-                                disabled
-                            >
-                                CONNEXION...
-                            </button>
-
-                            <span
-                                class="likes"
-                                id="liazLeka"
-                            >
-                                0
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-
-        <div class="category">
-            <button class="category-title">
-                DÉFENSEUR
-                <span>+</span>
-            </button>
-
-            <div class="category-content"></div>
-        </div>
-
-        <div class="category">
-            <button class="category-title">
-                GARDIEN
-                <span>+</span>
-            </button>
-
-            <div class="category-content"></div>
         </div>
 
     </div>
+
+</div>
+
+<!-- KORO SEIRO -->
+<div class="player-card">
+
+    <img
+        src="koro-seiro.png"
+        alt="Koro Seiro"
+        onclick="openModal(this.src)"
+    >
+
+    <div class="player-info">
+
+        <h3>KORO SEIRO</h3>
+
+        <p>MC - Milieu Central</p>
+
+        <div class="like-box">
+
+            <button
+                class="like-btn"
+                data-player="koroSeiro"
+                onclick="likePlayer(this, 'koroSeiro')"
+                disabled
+            >
+                CONNEXION...
+            </button>
+
+            <span
+                class="likes"
+                id="koroSeiro"
+            >
+                0
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+</div>
+
+<div class="category">
+
+    <button class="category-title">
+
+        DÉFENSEUR
+
+        <span>+</span>
+
+    </button>
+
+    <div class="category-content"></div>
+
+</div>
+
+<div class="category">
+
+    <button class="category-title">
+
+        GARDIEN
+
+        <span>+</span>
+
+    </button>
+
+    <div class="category-content"></div>
+
+</div>
+
+</div>
 
 </section>
 
 <div class="modal" id="modal">
 
-    <span
-        class="close"
-        onclick="closeModal()"
-    >
+    <span class="close" onclick="closeModal()">
         ×
     </span>
 
@@ -405,7 +437,7 @@ nav a.active{
 
 </div>
 
-<script type="module">
+    <script type="module">
 
 import {
     initializeApp
@@ -437,14 +469,14 @@ const firebaseConfig = {
     measurementId: "G-Y2T0Q3BR6E"
 };
 
-
 const app = initializeApp(firebaseConfig);
 
 const db = getDatabase(app);
 const auth = getAuth(app);
 
 const players = [
-    "liazLeka"
+    "liazLeka",
+    "koroSeiro"
 ];
 
 let currentUser = null;
